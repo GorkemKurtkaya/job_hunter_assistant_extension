@@ -185,12 +185,18 @@ Bu proje ISC lisansı altında lisanslanmıştır.
 
 ## 🔄 Güncellemeler
 
+### v1.1.0
+- **Toggle Kontrolü**: Veri toplama özelliğini açıp kapatabilme
+- **Modern UI**: Glassmorphism tasarım ile şık kullanıcı arayüzü
+- **Chrome Storage**: Toggle durumu kalıcı olarak saklanıyor
+- **Gelişmiş Layout**: Daha düzenli ve kullanıcı dostu arayüz
+- **Responsive Tasarım**: Farklı ekran boyutlarına uyum
+
 ### v1.0.0
 - İlk sürüm
 - LinkedIn veri toplama
-- Toggle kontrolü
-- Modern UI tasarımı
-- Backend entegrasyonu
+- Basit veri görüntüleme
+- Temel popup arayüzü
 
 ---
 
