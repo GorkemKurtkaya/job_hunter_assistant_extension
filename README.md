@@ -173,7 +173,8 @@ POST http://localhost:8000/api/job-applications
 
 ## 📄 Lisans
 
-Bu proje MIT lisansı altında lisanslanmıştır.
+Bu proje ISC lisansı altında lisanslanmıştır.
+
 
 ## 📞 İletişim
 
