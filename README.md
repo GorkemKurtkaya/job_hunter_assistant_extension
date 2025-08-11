@@ -13,7 +13,8 @@ LinkedIn iş ilanlarından otomatik olarak veri toplayan ve analiz eden Chrome e
 ## 🖼️ Arayüz Görselleri
 
 ### Ana Popup Arayüzü
-![Ana Popup](https://via.placeholder.com/400x300/667eea/ffffff?text=Ana+Popup+Arayüzü)
+<img width="320" height="295" alt="image" src="https://github.com/user-attachments/assets/cba8bcaa-66f9-4e6e-9976-0131001131f7" />
+
 
 **Özellikler:**
 - Modern glassmorphism tasarım
@@ -22,7 +23,8 @@ LinkedIn iş ilanlarından otomatik olarak veri toplayan ve analiz eden Chrome e
 - "Veriyi Göster" butonu
 
 ### Veri Görüntüleme Ekranı
-![Veri Görüntüleme](https://via.placeholder.com/400x300/764ba2/ffffff?text=Veri+Görüntüleme+Ekranı)
+<img width="318" height="598" alt="image" src="https://github.com/user-attachments/assets/c2fa6ae8-5bc0-411d-bb69-b6cd7ea1bdf9" />
+
 
 **Özellikler:**
 - Geri dönüş butonu
@@ -190,5 +192,6 @@ Bu proje MIT lisansı altında lisanslanmıştır.
 - Backend entegrasyonu
 
 ---
+
 
 **Not**: Bu extension'ın çalışması için mutlaka çalışan bir backend'e ihtiyaç vardır. Backend kurulumu için yukarıdaki adımları takip edin.
