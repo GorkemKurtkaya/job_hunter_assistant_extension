@@ -3,7 +3,7 @@
     "name": "JobHunter",
     "version": "1.0",
     "description": "İş ilanı verilerini topla ve göster",
-    "permissions": ["activeTab", "scripting"],
+    "permissions": ["activeTab", "scripting", "storage"],
     "host_permissions": ["https://www.linkedin.com/*","http://localhost:8000/*"],
     "content_scripts": [
       {

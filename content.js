@@ -40,7 +40,14 @@ async function sendJobDataToAPI(jobData) {
 }
 
 // Job verilerini çekme fonksiyonu
-function extractJobData() {
+async function extractJobData() {
+  // Veri toplama kapalıysa veri çekme
+  const isEnabled = await isDataCollectionEnabled();
+  if (!isEnabled) {
+    console.log('🔒 Veri toplama kapalı - veri çekilmedi');
+    return null;
+  }
+
   let title = "";
   const titleContainer = document.querySelector(".job-details-jobs-unified-top-card__job-title h1");
   if (titleContainer) {
@@ -62,7 +69,7 @@ function extractJobData() {
   
   const hirers = Array.from(document.querySelectorAll(".hirer-card__hirer-information")).map(hirer => {
     const name = hirer.querySelector(".jobs-poster__name strong")?.innerText || "";
-    const role = hirer.querySelector(".linked-area .text-body-small")?.innerText || "";
+    const role = hirer.querySelector(".linked-area .text-body-small")?.innerText.trim() || "";
     return { name, role };
   });
 
@@ -84,6 +91,17 @@ function extractJobData() {
   };
 }
 
+// Veri toplama durumunu kontrol et
+function isDataCollectionEnabled() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(["dataCollectionEnabled"], (result) => {
+      const isEnabled = result.dataCollectionEnabled === true;
+      console.log('🔍 Veri toplama durumu:', isEnabled ? 'açık' : 'kapalı');
+      resolve(isEnabled);
+    });
+  });
+}
+
 // Event Delegation for all relevant apply buttons
 function setupDelegatedJobDataListener() {
   function isRelevantButton(el) {
@@ -95,9 +113,14 @@ function setupDelegatedJobDataListener() {
     return text === 'Uygula' || text === 'Başvuruyu gönder';
   }
 
-  document.body.addEventListener('click', async function(e) {
+  document.body.addEventListener("click", async function(e) {
     let el = e.target;
-    console.log('Tıklanan element:', el); // Debug için
+    
+    // Veri toplama kapalıysa işlem yapma
+    const isEnabled = await isDataCollectionEnabled();
+    if (!isEnabled) {
+      return;
+    }
     
     // Traverse up to find the button if a child element was clicked
     for (let i = 0; i < 5 && el; i++, el = el.parentElement) {
@@ -105,7 +128,12 @@ function setupDelegatedJobDataListener() {
         console.log('✅ İlgili buton bulundu!'); // Debug için
         
         // Job datasını çek
-        const jobData = extractJobData();
+        const jobData = await extractJobData();
+        if (!jobData) {
+          console.log('🔒 Veri toplama kapalı - veri çekilmedi');
+          return;
+        }
+        
         console.log('Çekilen job data:', jobData); // Debug için
         
         // API'ye gönder

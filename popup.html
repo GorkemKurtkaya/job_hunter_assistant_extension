@@ -6,14 +6,43 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div id="mainView">
-      <h3>İlan Verisini Göster</h3>
-      <button id="showData">Veriyi Göster</button>
+    <div class="container">
+      <div class="header">
+        <img src="icon.png" alt="Logo" class="logo">
+        <h2>LinkedIn İlan Verisi</h2>
+        <div class="toggle-container">
+          <label class="toggle-switch">
+            <input type="checkbox" id="dataToggle">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">Veri Toplama</span>
+        </div>
+      </div>
+      
+      <div id="mainView" class="view">
+        <p class="description">LinkedIn'den toplanan iş ilanı verilerini görüntüleyin</p>
+        <button id="showData" class="btn btn-primary">
+          <span class="btn-icon">📊</span>
+          Veriyi Göster
+        </button>
+      </div>
+      
+      <div id="dataView" class="view" style="display:none;">
+        <div class="data-layout">
+          <button id="backBtn" class="btn btn-secondary">
+            <span class="btn-icon">←</span>
+            Geri
+          </button>
+          <div class="right-content">
+            <h3>İlan Verileri</h3>
+            <div class="data-container">
+              <pre id="jobDataDisplay"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="dataView" style="display:none; flex-direction:column; align-items:flex-start;">
-      <button id="backBtn" style="align-self:flex-start; margin-bottom:10px;">← Geri</button>
-      <pre id="jobDataDisplay" style="white-space:pre-wrap; word-break:break-word;"></pre>
-    </div>
+    
     <script src="popup.js"></script>
   </body>
 </html>

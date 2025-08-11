@@ -2,6 +2,21 @@ const mainView = document.getElementById("mainView");
 const dataView = document.getElementById("dataView");
 const jobDataDisplay = document.getElementById("jobDataDisplay");
 const backBtn = document.getElementById("backBtn");
+const dataToggle = document.getElementById("dataToggle");
+
+// Toggle durumunu chrome.storage'da sakla
+dataToggle.addEventListener("change", () => {
+  chrome.storage.local.set({ "dataCollectionEnabled": dataToggle.checked });
+  console.log("Veri toplama:", dataToggle.checked ? "açık" : "kapalı");
+});
+
+// Sayfa yüklendiğinde toggle durumunu geri yükle
+document.addEventListener("DOMContentLoaded", () => {
+  chrome.storage.local.get(["dataCollectionEnabled"], (result) => {
+    const isEnabled = result.dataCollectionEnabled === true;
+    dataToggle.checked = isEnabled;
+  });
+});
 
 backBtn.addEventListener("click", () => {
   dataView.style.display = "none";
@@ -9,6 +24,12 @@ backBtn.addEventListener("click", () => {
 });
 
 document.getElementById("showData").addEventListener("click", () => {
+  // Toggle kapalıysa veri çekme
+  if (!dataToggle.checked) {
+    alert("Veri toplama kapalı! Veri çekmek için toggle'ı açın.");
+    return;
+  }
+
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.scripting.executeScript({
       target: { tabId: tabs[0].id },
