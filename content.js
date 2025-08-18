@@ -1,7 +1,5 @@
-// API'ye veri gönderme fonksiyonu
 async function sendJobDataToAPI(jobData) {
   try {
-    // Hirers verilerini uygun formata dönüştür
     const recruiters = jobData.hirers.map(hirer => {
       if (hirer.name && hirer.role) {
         return `${hirer.name} - ${hirer.role}`;
@@ -39,9 +37,8 @@ async function sendJobDataToAPI(jobData) {
   }
 }
 
-// Job verilerini çekme fonksiyonu
+
 async function extractJobData() {
-  // Veri toplama kapalıysa veri çekme
   const isEnabled = await isDataCollectionEnabled();
   if (!isEnabled) {
     console.log('🔒 Veri toplama kapalı - veri çekilmedi');
@@ -73,7 +70,6 @@ async function extractJobData() {
     return { name, role };
   });
 
-  // Additional: 'Ulaşabileceğiniz kişiler' section
   const connections = Array.from(document.querySelectorAll('.job-details-people-who-can-help__connections-profile-card'));
   connections.forEach(card => {
     const name = card.querySelector('.job-details-people-who-can-help__connections-profile-card-title strong')?.innerText.trim() || "";
@@ -91,7 +87,6 @@ async function extractJobData() {
   };
 }
 
-// Veri toplama durumunu kontrol et
 function isDataCollectionEnabled() {
   return new Promise((resolve) => {
     chrome.storage.local.get(["dataCollectionEnabled"], (result) => {
@@ -102,44 +97,37 @@ function isDataCollectionEnabled() {
   });
 }
 
-// Event Delegation for all relevant apply buttons
 function setupDelegatedJobDataListener() {
   function isRelevantButton(el) {
     if (!el) return false;
     if (el.tagName !== 'BUTTON') return false;
     const text = (el.innerText || '').trim();
-    console.log('Buton metni:', text); // Debug için
-    // "Uygula" ve "Başvuruyu gönder" butonlarını dinle
+    console.log('Buton metni:', text); 
     return text === 'Uygula' || text === 'Başvuruyu gönder';
   }
 
   document.body.addEventListener("click", async function(e) {
     let el = e.target;
     
-    // Veri toplama kapalıysa işlem yapma
     const isEnabled = await isDataCollectionEnabled();
     if (!isEnabled) {
       return;
     }
     
-    // Traverse up to find the button if a child element was clicked
     for (let i = 0; i < 5 && el; i++, el = el.parentElement) {
       if (isRelevantButton(el)) {
-        console.log('✅ İlgili buton bulundu!'); // Debug için
+        console.log('✅ İlgili buton bulundu!'); 
         
-        // Job datasını çek
         const jobData = await extractJobData();
         if (!jobData) {
           console.log('🔒 Veri toplama kapalı - veri çekilmedi');
           return;
         }
         
-        console.log('Çekilen job data:', jobData); // Debug için
+        console.log('Çekilen job data:', jobData); 
         
-        // API'ye gönder
         const success = await sendJobDataToAPI(jobData);
         
-        // Console'a bilgi ver
         if (success) {
           console.log('✅ Başvuru verisi başarıyla kaydedildi:', jobData);
         } else {
@@ -151,7 +139,6 @@ function setupDelegatedJobDataListener() {
   }, true);
 }
 
-// Sayfa yüklendiğinde event listener'ı kur
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', setupDelegatedJobDataListener);
 } else {

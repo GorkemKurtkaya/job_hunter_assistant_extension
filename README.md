@@ -72,14 +72,23 @@ npm start
 
 ### 3. Backend URL'ini Güncelleyin
 
-Extension'ın backend'e bağlanabilmesi için `content.js` dosyasındaki localhost URL'ini güncelleyin:
+Extension'ın backend'e bağlanabilmesi için `config.js` dosyasındaki backend URL'ini güncelleyin:
 
 ```javascript
-// content.js dosyasında bu satırı bulun ve güncelleyin
-const response = await fetch('http://localhost:8000/api/job-applications', {
-  // Eğer farklı bir port kullanıyorsanız, burayı değiştirin
-});
+// config.js dosyasında bu satırları bulun ve güncelleyin
+window.CONFIG = {
+  BACKEND_URL: 'https://your-backend-url.com',  // Kendi backend URL'inizi yazın
+  API_ENDPOINT: '/api/job-applications'
+};
 ```
+
+**Örnek Backend URL'leri:**
+- **Localhost**: `http://localhost:8000`
+- **Railway**: `https://your-app-name.up.railway.app`
+- **Heroku**: `https://your-app-name.herokuapp.com`
+- **Vercel**: `https://your-app-name.vercel.app`
+
+**Not**: URL'nin sonunda `/` olmamalı, sadece domain yazın.
 
 ## 🔧 Kullanım
 
@@ -105,6 +114,7 @@ job_hunter_assistant_extension/
 ├── manifest.json          # Extension manifest dosyası
 ├── popup.html            # Popup arayüzü
 ├── popup.js              # Popup JavaScript kodu
+├── config.js             # Backend API konfigürasyonu
 ├── content.js            # LinkedIn sayfasında çalışan script
 ├── style.css             # Stil dosyası
 ├── icon.png              # Extension ikonu
@@ -121,12 +131,34 @@ Extension'ın temel ayarları `manifest.json` dosyasında bulunur:
 - **Host permissions**: LinkedIn ve backend URL'leri
 - **Content scripts**: LinkedIn sayfalarında çalışan script'ler
 
+### Config.js
+
+Backend API ayarları `config.js` dosyasında bulunur:
+
+```javascript
+window.CONFIG = {
+  BACKEND_URL: 'https://your-backend-url.com',  // Backend URL'iniz
+  API_ENDPOINT: '/api/job-applications'        // API endpoint'i
+};
+```
+
+**Önemli Notlar:**
+- **BACKEND_URL**: Backend'inizin tam URL'i (protokol dahil)
+- **API_ENDPOINT**: API endpoint path'i (genellikle `/api/job-applications`)
+- **URL formatı**: `https://domain.com` şeklinde olmalı
+- **Sonunda slash yok**: URL'nin sonunda `/` olmamalı
+
 ### Backend API Endpoint
 
 Extension şu endpoint'e veri gönderir:
 
 ```
-POST http://localhost:8000/api/job-applications
+POST {BACKEND_URL}{API_ENDPOINT}
+```
+
+**Örnek:**
+```
+POST https://your-backend.com/api/job-applications
 ```
 
 **Request Body:**

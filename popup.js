@@ -4,13 +4,12 @@ const jobDataDisplay = document.getElementById("jobDataDisplay");
 const backBtn = document.getElementById("backBtn");
 const dataToggle = document.getElementById("dataToggle");
 
-// Toggle durumunu chrome.storage'da sakla
+
 dataToggle.addEventListener("change", () => {
   chrome.storage.local.set({ "dataCollectionEnabled": dataToggle.checked });
   console.log("Veri toplama:", dataToggle.checked ? "açık" : "kapalı");
 });
 
-// Sayfa yüklendiğinde toggle durumunu geri yükle
 document.addEventListener("DOMContentLoaded", () => {
   chrome.storage.local.get(["dataCollectionEnabled"], (result) => {
     const isEnabled = result.dataCollectionEnabled === true;
@@ -24,7 +23,6 @@ backBtn.addEventListener("click", () => {
 });
 
 document.getElementById("showData").addEventListener("click", () => {
-  // Toggle kapalıysa veri çekme
   if (!dataToggle.checked) {
     alert("Veri toplama kapalı! Veri çekmek için toggle'ı açın.");
     return;
@@ -45,18 +43,15 @@ document.getElementById("showData").addEventListener("click", () => {
 });
 
 function extractJobData() {
-  // Try to get the job title from the new LinkedIn job page structure
   let title = "";
   const titleContainer = document.querySelector(".job-details-jobs-unified-top-card__job-title h1");
   if (titleContainer) {
     title = titleContainer.innerText.trim();
   } else {
-    // Fallback: try h1 > a
     const titleLink = document.querySelector(".job-details-jobs-unified-top-card__job-title h1 a");
     if (titleLink) {
       title = titleLink.innerText.trim();
     } else {
-      // Fallback: use document.title
       title = document.title || "";
     }
   }
@@ -70,7 +65,6 @@ function extractJobData() {
     return { name, role };
   });
 
-  // Additional: 'Ulaşabileceğiniz kişiler' section
   const connections = Array.from(document.querySelectorAll('.job-details-people-who-can-help__connections-profile-card'));
   connections.forEach(card => {
     const name = card.querySelector('.job-details-people-who-can-help__connections-profile-card-title strong')?.innerText.trim() || "";
@@ -89,9 +83,7 @@ function extractJobData() {
 }
 
 function formatJobData(jobData) {
-  // Format description with line breaks
   const formattedDescription = jobData.description.replace(/\n/g, '<br>');
-  // Format hirers
   const hirersHtml = jobData.hirers && jobData.hirers.length > 0
     ? '<ul style="padding-left:18px;">' + jobData.hirers.map(h => `<li><b>${h.name}</b> - ${h.role}</li>`).join('') + '</ul>'
     : '<i>Bilgi yok</i>';
