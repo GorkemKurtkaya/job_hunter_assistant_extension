@@ -18,7 +18,7 @@ async function sendJobDataToAPI(jobData) {
       recruiters: recruiters
     };
 
-    const response = await fetch('http://localhost:8000/api/job-applications', {
+      const response = await fetch(`${window.CONFIG.BACKEND_URL}${window.CONFIG.API_ENDPOINT}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
